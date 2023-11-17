@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>IFood Meus Restaurantes</title>
+</head>
+
+<body>
+    <h1>Meus Restaurantes no iFood</h1>
+
+    <button onclick="getRestaurantes()">Carregar Restaurantes</button>
+
+    <div id="restaurantes"></div>
+
+    <script>
+        const bearer = "eyJraWQiOiJiNjRjNjZmZS00ZWY5LTExZTktODY0Ny1kNjYzYmQ4NzNkOTMiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIzMDAxZjcwOC00MDU2LTQ5OWMtODdkMC1mYjQzN2VlZWY4ZjYiLCJpc3MiOiJpRm9vZCIsInRlbmFudElkIjoiSUZPIiwidHlwZSI6ImFjY2Vzc190b2tlbiIsImV4cCI6MTcwMDIwNTY4NSwiaWF0IjoxNzAwMTk4NDg1LCJkaWQiOiI4MGJhNWM0MTgyMjIxYzliYjk2ZjU3Nzk0MGFjMzRlM2FkMjEzZTMwYjVkOTQ2Y2JkYTBkMzkyMzAxY2NiMWVlYmIyOTA2NDU1YzIzZmFjZDc3NGE4M2I2OTM2MjI3NTFlYjYwZGI4ZjExYzE4NjllYjA3NThiYzJkYzAzNjg4MyJ9.MDlDxw-iFlpdnx1z3qYX8smgEgB8jsoAf1gj97ZuWv1PRyl49s57Of3_1VDZKM9b9yiV1j6X-KyTXjRk5XiNYJmmKoEOPYW1G7bDaGJCXUzKTr9EqIlSux2ukUwpACMhXCLidSuYzLZs0ZIYY2gspCEJBHZ8_M6vkQGx6QMb7ZWI3kgK2Ql0rabwphMGVGjJTFMNzfSyzlTVFJPgpg26R9iOr1wu3Fq6yW_cYTNTl-9DLVQ-QTETcM55KBhMbAWBahH-24TdoDustvjK9YnitcWoy4YpOwki0OOae-vfS7pnHPm4bbcZzwnOxWrcCLIL_p6TpOKNaLUZuAB7JyaCwg"; // Replace with your Bearer token
+
+        async function getRestaurantes() {
+            const url = "https://api.ifood.com.br/restaurants/meus-restaurantes";
+            const headers = {
+                "Authorization": "Bearer " + bearer,
+            };
+
+            const response = await fetch(url, { headers });
+
+            if (response.status === 200) {
+                const restaurantes = await response.json();
+
+                const restaurantesList = document.getElementById('restaurantes');
+                restaurantesList.innerHTML = ''; // Clear previous content
+
+                for (const restaurante of restaurantes) {
+                    const restauranteItem = document.createElement('div');
+                    restauranteItem.className = 'restaurante';
+
+                    const restauranteNome = document.createElement('p');
+                    restauranteNome.textContent = restaurante.nome;
+
+                    restauranteItem.appendChild(restauranteNome);
+                    restaurantesList.appendChild(restauranteItem);
+                }
+            } else {
+                console.log(response.status);
+            }
+        }
+    </script>
+</body>
+
+</html>
